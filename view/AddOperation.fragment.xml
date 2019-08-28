@@ -1,0 +1,46 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog title="{i18n>NEW_OPERATION}">
+		<f:SimpleForm minWidth="800" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+			<f:content>
+				<RadioButtonGroup columns="2">
+				<buttons>
+					<RadioButton id="rbOp" select="opOrSubopChoose" text="{i18n>OPERATION_LONG}" selected="true"/>
+					<RadioButton id="rbSOp" text="{i18n>SUB_ACTIVITY_LONG}"/>
+				</buttons>
+				</RadioButtonGroup>
+				<Label text="{i18n>OPERATION}" id="lblOp" visible="false" />
+				<Select id="selOp" xmlns:f="sap.ui.layout.form" xmlns="sap.m" items="{/ParentOperations}" selectedKey="{Activity}" forceSelection="false" visible="false">
+				    <core:Item xmlns:core="sap.ui.core" key="{Activity}" text="{Activity} - {Description}"/>
+				</Select>
+				<Label id="lblSOp" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns="sap.m" text="{i18n>SUB_ACTIVITY}" visible="false"/>
+				<Input id="inSOp" type="Number" value="{SubActivity}" visible="false"/>
+				<Label text="{i18n>WORK_CENTER}"/>
+				<Input value="{WorkCntr}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOperationWorkCentersDialog" placeholder="{i18n>SELECT_ORDER_WORK_CNTR}"/>
+				<Label text="{i18n>PLANT}"/>
+				<Input showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOperationPlantsDialog" placeholder="{i18n>SELECT_ORDER_PLANPLANT}" value="{= ${Plant/Werks} ? ${Plant/Werks} + ' - ' + ${Plant/Name1} : ''}"/>
+				<Label text="{i18n>CONTROL_KEY}"/>
+				<Select items="{/ControlKeys}" selectedKey="{ControlKey}" forceSelection="false">
+					<core:Item key="{STEUS}" text="{STEUS} - {TXT}"/>
+				</Select>
+				<!--<Label text="{i18n>ACT_TYPE}" />
+        <Select
+          items="{/OperationActivityTypes}"
+          selectedKey="{Acttype}">
+          <core:Item
+            key="{RId}" 
+            text="{RId} - {RVal1}" />
+        </Select>
+				<Label text="{i18n>WORK_ACTUAL}"/>
+				<Input value="{WorkActual}"/>-->
+				<Label text="{i18n>OP_SHORT_TEXT}"/>
+				<Input maxLength="40" value="{Description}"/>
+			</f:content>
+		</f:SimpleForm>
+		<beginButton>
+			<Button press="handleAddOperationAcceptPress" text="{i18n>ACCEPT}" type="Accept"/>
+		</beginButton>
+		<endButton>
+			<Button press="handleAddOperationCancelPress" text="{i18n>CANCEL}"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

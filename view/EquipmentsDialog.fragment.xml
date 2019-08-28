@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <SelectDialog
+    busy="{/loadingEquipments}"
+    noDataText="{= ${/Order/Planplant} ? ${i18n>NO_DATA} : ${i18n>NO_PLANT}}"
+    title="{i18n>EQUIPAMENTS} ({/Order/Planplant/Werks})"
+    growingThreshold="50"
+    liveChange="handleEquipLiveChange"
+    confirm="handleEquipConfirm"
+    items="{/Equipments}" >
+    <StandardListItem
+      title="{Descript}"
+      description="{Equipment}"
+      type="Active" />
+  </SelectDialog>
+</core:FragmentDefinition>

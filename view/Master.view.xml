@@ -1,0 +1,53 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" controllerName="com.blueboot.createorder.controller.Master" displayBlock="true">
+
+  <semantic:MasterPage id="page" navButtonPress="handleNavButtonPress" showNavButton="true">
+    <semantic:subHeader>
+      <Bar id="headerBar">
+        <contentMiddle>
+          <SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>SEARCH}" width="100%" search="onSearch" placeholder="{i18n>SEARCH}">
+          </SearchField>
+        </contentMiddle>
+      </Bar>
+    </semantic:subHeader>
+
+    <semantic:content>
+      <!-- For client side filtering add this to the items attribute:  parameters: {operationMode: 'Client'}}" -->
+      <List 
+        items="{ path: '/ActualNotifications', sorter: { path: 'Priority' } }" 
+        headerText="{i18n>NOTIFICATIONS}" 
+        updateFinished="onListUpdateFinished" 
+        noDataText="{i18n>NO_DATA}"
+        mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" 
+        itemPress="onSelectionChange">
+        <items>
+          <StandardListItem
+            type="Active" 
+            press="onSelectionChange" 
+            title="{ShortText}" 
+            description="{
+              path : 'NotifNo', 
+              formatter: '.formatter.leadingZeros'
+              }"
+            info="{ 
+              path : 'Strmlfndate', 
+              type : 'sap.ui.model.type.DateTime', 
+              formatOptions : { style: 'medium', source: { pattern: 'yyyyMMdd' } } 
+              }">
+          </StandardListItem>
+        </items>
+      </List>
+      
+    </semantic:content>
+    <semantic:customFooterContent>
+      <Toolbar>
+        <Button icon="sap-icon://refresh" press="refreshData" text="{/pendingItemsCount}" visible="{device>/isKapsel}"></Button>
+        <ToolbarSpacer/>
+        <Button text="{i18n>NEW_ORDER_BTN}" press="onCreate" tooltip="{i18n>NEW_ORDER}"/>
+        <!--<Button icon="sap-icon://navigation-right-arrow" visible="{device>/isPhone}" press="handleFuncLocDeviceNav"></Button>-->
+      </Toolbar>
+    
+      <!--Button icon="sap-icon://create-form" press="onCreate" tooltip="{i18n>NEW_ORDER}"/-->
+    </semantic:customFooterContent>
+  </semantic:MasterPage>
+
+</mvc:View>

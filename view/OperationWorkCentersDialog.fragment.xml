@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <SelectDialog
+    busy="{/loadingOpWorkCenters}"
+    noDataText="{= ${/NewOperation/Plant} ? ${i18n>NO_DATA} : ${i18n>NO_PLANT}}"
+    title="{i18n>WORK_CENTERS} ({/NewOperation/Plant/Werks})"
+    growingThreshold="50"
+    liveChange="handleWorkCenterLiveChange"
+    confirm="handleWorkCenterConfirm"
+    items="{/OpWorkCenters}" >
+    <StandardListItem
+      title="{Arbpl}"
+      description="{Ktext}"
+      type="Active" />
+  </SelectDialog>
+</core:FragmentDefinition>

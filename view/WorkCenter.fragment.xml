@@ -1,0 +1,22 @@
+<!--<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="{i18n>NO_DATA}" title="{i18n>SELECT_WORK_CENTER}" search="handleWorkCentersSearch"
+		confirm="handleWorkCentersClose" close="handleWorkCentersClose" items="{path: '/WorkCenter', sorter: [ {path: 'Objid'}]}">
+		<StandardListItem title="{Arbpl}" description="{Ktext}" type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>-->
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <SelectDialog
+    noDataText="{= ${/Order/Planplant} ? ${i18n>NO_DATA} : ${i18n>NO_PLANT}}"
+    title="{i18n>WORK_CENTERS} ({/Order/Planplant/Werks})"
+    growingThreshold="50"
+    liveChange="handleWorkCenterLiveChange"
+    confirm="handleWorkCenterConfirm"
+    items="{/PmWorkCenters}" >
+    <StandardListItem
+      title="{Arbpl}"
+      description="{Ktext}"
+      type="Active" />
+  </SelectDialog>
+</core:FragmentDefinition>

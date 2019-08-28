@@ -1,0 +1,225 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"
+	controllerName="com.blueboot.createorder.controller.Order">
+	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" title="{i18n>DETAIL_TITLE}" busy="false"
+		busyIndicatorDelay="0">
+		<semantic:content>
+			<IconTabBar xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+				<items>
+					<IconTabFilter text="{i18n>HEADER}" icon="sap-icon://hint" iconColor="Positive">
+						<content>
+							<f:SimpleForm minWidth="800" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4"
+								emptySpanM="4" columnsL="1" columnsM="1">
+								<f:content>
+									<Label text="{i18n>ORDER_TYPE}" required="true"/>
+									<Select items="{/OrderTypes}" placeholder="{i18n>SELECT_ORDER_PRIORITY}" forceSelection="false" change="orderTypeChanged"
+										selectedKey="{OrderType}">
+										<core:Item key="{AUART}" text="{AUART} - {TXT}"/>
+									</Select>
+									<Label text="{i18n>ORDER_PRIORITY}" required="true"/>
+									<Select items="{/Priorities}" placeholder="{i18n>SELECT_ORDER_PRIORITY}" forceSelection="false" selectedKey="{Priority}">
+										<core:Item key="{PRIOK}" text="{PRIOKX}"/>
+									</Select>
+									<Label text="{i18n>EQUIP}" required="true"/>
+									<!--<Input value="{= ${Equipment/Equipment} ? ${Equipment/Equipment} + ' - ' + ${Equipment/Descript} : ''}" showValueHelp="true"
+										valueHelpOnly="true" valueHelpRequest="openEquipmentsDialog" placeholder="{i18n>SELECT_EQUIP}"/>-->
+									<FlexBox direction="Row" justifyContent="Start" alignItems="Start">
+										<Input value="{/EquipSelected}" showValueHelp="true"
+											valueHelpOnly="false" valueHelpRequest="openEquipmentsDialog" placeholder="{i18n>SELECT_EQUIP}" change="handleEquipEnter"/>
+										<Button icon="sap-icon://bar-code" press="onScanFilter"/>
+									</FlexBox>
+									<!-- PS - Mercedes - Datos de direccion -->
+									<Label text="{i18n>ORDER_NAME}" required="true"/>
+									<Input maxLength="40" value="{OrderAddress/Name}" />
+									<Label text="{i18n>ORDER_AREA}" required="true"/>
+									<Input maxLength="40" value="{OrderAddress/Area}" />
+									<Label text="{i18n>ORDER_RECORD}" required="true"/>
+									<Input maxLength="40" value="{OrderAddress/Record}" />
+									<Label text="{i18n>ORDER_TELEPHONE}" required="true"/>
+									<Input maxLength="30" value="{OrderAddress/Telephone}" />
+									<!-- PS - Mercedes - Datos de direccion -->
+									
+									<Label text="{i18n>ORDER_PLANPLANT}"/>
+									<Input value="{= ${Planplant/Werks} ? ${Planplant/Name1} : ''}" showValueHelp="true" valueHelpOnly="true"
+										valueHelpRequest="onPlantsDialog" placeholder="{i18n>SELECT_ORDER_PLANPLANT}"/>
+									<!-- PS - Mercedes no selecciona ubicacion funcional
+									<Label text="{i18n>FUNC_LOC}"/>
+									<Input value="{/FunctLocSelected}" showValueHelp="true"
+										valueHelpOnly="true" valueHelpRequest="openFuncLocsDialog" placeholder="{i18n>SELECT_FUNC_LOC}"/> -->
+									<Label text="{i18n>ORDER_PLANGROUP}"/>
+									<Select
+										enabled="{= ${/EquipObject/Plangroup} === ''}"
+										items="{/PlanningGroups}" 
+										placeholder="{i18n>SELECT_ORDER_PLANGROUP}" 
+										forceSelection="false" 
+										selectedKey="{Plangroup}">
+										<core:Item key="{INGRP}" text="{INGRP} - {INNAM}"/>
+									</Select>
+									<!-- PS - Mercedes no selecciona puesto de trabajo -->
+									<Label text="{i18n>ORDER_WORK_CNTR}"/>
+									<Input enabled="false" value="{MnWkCtr/Arbpl} - {MnWkCtr/Ktext}" placeholder="{i18n>SELECT_ORDER_WORK_CNTR}"/>
+									<Label text="{i18n>ORDER_START_DATE}"/>
+									<!-- PS - Mercedes no ingresa ni visualiza fechas -->
+									<!--<DatePicker value="{StartDate}" valueFormat="yyyyMMdd"/>
+									<Label text="{i18n>ORDER_END_DATE}"/>
+									<DatePicker value="{FinishDate}" valueFormat="yyyyMMdd"/> -->
+									<Label text="{i18n>ORDER_ACTIVITY_CLASS}"/>
+									<Select items="{/Classes}" placeholder="{i18n>SELECT_ORDER_ACTIVITY_CLASS}" forceSelection="false" selectedKey="{Pmacttype}">
+										<core:Item key="{ILART}" text="{ILART} - {ILATX}"/>
+									</Select>
+									<Label text="{i18n>ORDER_SHORT_TEXT}" required="true"/>
+									<Input value="{ShortText}" placeholder="{i18n>ENTER_ORDER_SHORT_TEXT}" change="onShortTextChange" />
+									<Label text="{i18n>BREAKDOWN}" visible="{= ${/showHiddenNotification} }"/>
+									<CheckBox selected="{Breakdown}" visible="{= ${/showHiddenNotification} }"/>
+									<Label text="{i18n>ORDER_PHOTO}"/>
+									<sap.ui.unified:FileUploader xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:sap.ui.unified="sap.ui.unified" name="fileUploader"
+										uploadOnChange="false" sendXHR="true" useMultipart="false" style="Emphasized"
+										placeholder="" id="photoFileUploader" buttonText="{i18n>UPLOAD}" >
+										<sap.ui.unified:headerParameters>
+											<sap.ui.unified:FileUploaderParameter name="X-Requested-With" value="XMLHttpRequest"/>
+										</sap.ui.unified:headerParameters>
+									</sap.ui.unified:FileUploader>
+								</f:content>
+							</f:SimpleForm>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter text="{i18n>OPERATIONS}" icon="sap-icon://task" iconColor="Positive">
+						<content>
+							<Table noDataText="{i18n>NO_DATA}" mode="Delete" delete="handleOperationDelete" itemPress="handleOperationEdit" items="{OrderOperationSet}"
+								keyboardMode="Edit">
+								<headerToolbar>
+									<Toolbar>
+										<ToolbarSpacer/>
+										<Button text="{i18n>ADD_OPERATION}" icon="sap-icon://add" press="handleAddOperationPress"/>
+									</Toolbar>
+								</headerToolbar>
+								<items>
+									<ColumnListItem vAlign="Middle" type="Active">
+										<cells vAlign="Middle">
+											<ObjectIdentifier title="{Activity}"/>
+											<ObjectAttribute text="{SubActivity}"/>
+											<ObjectAttribute text="{WorkCntr}"/>
+											<ObjectAttribute text="{= ${Plant/Werks} ? ${Plant/Name1} : ''}"/>
+											<ObjectAttribute text="{ControlKey}"/>
+											<!--<ObjectAttribute text="{Acttype}" visible="false"/> -->
+											<ObjectAttribute text="{ path : 'WorkActual', type : 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits : 1 }}"/>
+											<ObjectAttribute text="{Description}"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+								<columns>
+									<Column width="50px">
+										<header>
+											<Label text="{i18n>OPERATION}"/>
+										</header>
+									</Column>
+									<Column width="80px" minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>SUB_ACTIVITY}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>WORK_CENTER}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>PLANT}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>CONTROL_KEY}"/>
+										</header>
+									</Column>
+									<!--<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle" visible="false">
+										<header>
+											<Label text="{i18n>ACT_TYPE}"/>
+										</header>
+									</Column> -->
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>WORK_ACTUAL}"/>
+										</header>
+									</Column>
+									<Column width="200px" minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>OP_SHORT_TEXT}"/>
+										</header>
+									</Column>
+								</columns>
+							</Table>
+						</content>
+					</IconTabFilter>
+					<!--<IconTabFilter visible="false" text="{i18n>COMPONENTS}" icon="sap-icon://list" iconColor="Positive">
+						<content>
+							<Table noDataText="{i18n>NO_DATA}" mode="Delete" delete="handleComponentDelete" itemPress="handleComponentEdit" items="{OrderComponentSet}">
+								<headerToolbar>
+									<Toolbar>
+										<ToolbarSpacer/>
+										<Button text="{i18n>ADD_COMPONENT}" icon="sap-icon://add" press="handleAddComponentPress"/>
+									</Toolbar>
+								</headerToolbar>
+								<items>
+									<ColumnListItem vAlign="Middle" type="Active">
+										<cells vAlign="Middle">
+											<ObjectIdentifier title="{ResItem}"/>
+											<ObjectAttribute text="{Material}"/>
+											<ObjectAttribute text="{MatlDesc}"/>
+											<ObjectAttribute text="{ItemCat}"/>
+											<ObjectAttribute text="{Plant/Werks}"/>
+											<ObjectAttribute text="{StgeLoc}"/>
+											<ObjectAttribute text="{Activity}"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+								<columns>
+									<Column>
+										<header>
+											<Label text="{i18n>POSITION}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>MATERIAL}"/>
+										</header>
+									</Column>
+									<Column width="200px" minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>DENOMINATION}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>RES_TYPE}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>OP_PLANT}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>STGE_LOC}"/>
+										</header>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" vAlign="Middle">
+										<header>
+											<Label text="{i18n>OPERATION}"/>
+										</header>
+									</Column>
+								</columns>
+							</Table>
+						</content>
+					</IconTabFilter>-->
+				</items>
+			</IconTabBar>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{i18n>SAVE_BTN}" width="80px" press="onOrderCreate" tooltip="{i18n>SAVE_BTN}" type="Accept"/>
+			<!--Button icon="sap-icon://document" press="onBlankOrder" tooltip="{i18n>NEW_ORDER}"/-->
+			<!--<Button icon="sap-icon://detail-view" press="openTaskListsDialog" text="{i18n>SEARCH_TASKLIST}" tooltip="{i18n>SEARCH_TASKLIST}"/>-->
+		</semantic:customFooterContent>
+	</semantic:DetailPage>
+</mvc:View>
