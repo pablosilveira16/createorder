@@ -39,13 +39,12 @@
       
     </semantic:content>
     <semantic:customFooterContent>
-      <Toolbar>
+      <HBox height="100%" width="100%" alignItems="Start">
         <Button icon="sap-icon://refresh" press="refreshData" text="{/pendingItemsCount}" visible="{device>/isKapsel}"></Button>
-        <ToolbarSpacer/>
-        <Button text="{i18n>NEW_ORDER_BTN}" press="onCreate" tooltip="{i18n>NEW_ORDER}"/>
+      </HBox>
+      <Button text="{i18n>NEW_ORDER_BTN}" press="onCreate" tooltip="{i18n>NEW_ORDER}"/>
         <!--<Button icon="sap-icon://navigation-right-arrow" visible="{device>/isPhone}" press="handleFuncLocDeviceNav"></Button>-->
-      </Toolbar>
-    
+      
       <!--Button icon="sap-icon://create-form" press="onCreate" tooltip="{i18n>NEW_ORDER}"/-->
     </semantic:customFooterContent>
   </semantic:MasterPage>
