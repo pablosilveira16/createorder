@@ -67,13 +67,13 @@ sap.ui.define([
       var plant = mParameters.actualPlant.Werks;
       var rootElement = mParameters.funcLoc;
       definingRequests = {
-        "EquipSet": "/EquipSet?$filter=Planplant eq '" + plant + "' and RootElement eq '" + rootElement + "'",
+        "EquipSet": "/EquipSet?$filter=Planplant eq '" + plant + "'",
         "OrderTypeSet": "/OrderTypeSet", //OrderTypes
         "PrioritySet": "/PrioritySet", //Priorities
         "ControlKeySet": "/ControlKeySet", //ControlKeys
         "PlanGroupSet": "/PlanGroupSet?$filter=IWERK eq '" + plant + "'", //PlanningGroups
         "ActivityClassSet": "/ActivityClassSet", //Classes  //filtra por ordertype en front
-        "NotifSet": "/NotifSet?$expand=NotifItemSet,NotifActivitySet,NotifLongtextSet,NotifTaskSet,NotifPhotoSet", //Notifications  //filtrar por FuncLoc ??
+        "NotifSet": "/NotifSet?$expand=NotifItemSet,NotifActivitySet,NotifLongtextSet,NotifTaskSet,NotifPhotoSet&$filter=Planplant eq '" + plant + "'", //Notifications  //filtrar por FuncLoc ??
         "WorkCenterSet": "/WorkCenterSet?$expand=PersonSet&$filter=Werks eq '" + plant + "'", //OpWorkCenters y PmWorkCenters
         "PlantSet": "/PlantSet"
       };
