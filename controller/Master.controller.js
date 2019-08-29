@@ -214,8 +214,8 @@ sap.ui.define([
       });
 
       var filters = [
-        new sap.ui.model.Filter("Planplant", sap.ui.model.FilterOperator.EQ, actualPlant.Werks),
-        new sap.ui.model.Filter("RootElement", sap.ui.model.FilterOperator.EQ, funcLoc)
+        new sap.ui.model.Filter("Planplant", sap.ui.model.FilterOperator.EQ, actualPlant.Werks)
+        //new sap.ui.model.Filter("RootElement", sap.ui.model.FilterOperator.EQ, funcLoc)
       ];
 
       if (!mParameters.ignoreTree) {
