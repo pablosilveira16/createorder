@@ -1,4 +1,4 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" controllerName="com.blueboot.createorder.controller.Master" displayBlock="true">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" controllerName="com.blueboot.createorder.controller.Master" displayBlock="true" busyIndicatorDelay="0">
 
   <semantic:MasterPage id="page" navButtonPress="handleNavButtonPress" showNavButton="true">
     <semantic:subHeader>
@@ -40,7 +40,7 @@
     </semantic:content>
     <semantic:customFooterContent>
       <HBox height="100%" width="100%" alignItems="Start" justifyContent="SpaceBetween">
-        <Button icon="sap-icon://refresh" press="refreshData" text="{/pendingItemsCount}" visible="{device>/isKapsel}"></Button>
+        <Button icon="sap-icon://refresh" press="refreshData" text="{/pendingItemsCount}" enabled="{= ${/pendingItemsCount} > 0}" visible="{device>/isKapsel}"></Button>
         <Button text="{i18n>NEW_ORDER_BTN}" press="onCreate" tooltip="{i18n>NEW_ORDER}"/>
       </HBox>
       

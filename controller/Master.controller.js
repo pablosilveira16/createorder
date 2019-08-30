@@ -85,10 +85,12 @@ sap.ui.define([
 
         refreshData: function() {
 
-
+            var that = this;
             if (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
                 $.when(offline.forceCheckIfOnlineAndLoggedIn()).then(function() {
+                    that.getView().setBusy(true);
                     setTimeout(function() {
+                        that.getView().setBusy(false);
                         var oEventBus = sap.ui.getCore().getEventBus();
                         oEventBus.publish("OfflineStore", "Refreshing");
                     }, 100);

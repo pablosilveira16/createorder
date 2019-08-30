@@ -1042,7 +1042,7 @@ sap.ui.define([
 								var match = oData.__metadata.uri.match(/\((.*)?\)/);
 								var msgSuc = that._oBundle.getText("CREATE_ITEM_OFFLINE");
 								if (match && match[1]) {
-									msgSuc = that._oBundle.getText("SUCCESS_CREATE", [match[1]]);
+									//msgSuc = that._oBundle.getText("SUCCESS_CREATE", [match[1]]);
 									oOrderComponents.Orderid = [match[1]];
 								}
 								that._oBusyDialog.close();
