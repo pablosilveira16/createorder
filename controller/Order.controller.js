@@ -943,15 +943,15 @@ sap.ui.define([
 				order.Planplant = order.Planplant ? order.Planplant.Werks : "";
 				//order.FunctLoc = oLocalModel.getProperty("/FunctLocSelected"); //order.FunctLoc ? order.FunctLoc.Functlocation : "";
 				order.Equipment = oLocalModel.getProperty("/EquipSelected"); //order.Equipment ? order.Equipment.Equipment : "";
-				order.MnWkCtr = order.MnWkCtr.Arbpl;
-				order.Breakdown = order.Breakdown ? "X" : "";
-				order.Equicatgry = oEquipment.Equicatgry;
-
 				if (!order.Equipment || !order.OrderType || !order.Priority || !order.OrderAddress.Name || !order.OrderAddress.Area 
 					|| !order.OrderAddress.Record || !order.OrderAddress.Telephone || !order.ShortText) {
 					MessageToast.show("Complete todos os dados obrigatórios antes de continuar por favor.");
 					return;
 				}
+
+				order.MnWkCtr = order.MnWkCtr.Arbpl;
+				order.Breakdown = order.Breakdown ? "X" : "";
+				order.Equicatgry = oEquipment.Equicatgry;				
 
 				that.getView().setBusy(true);
 
