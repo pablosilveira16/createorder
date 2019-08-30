@@ -935,9 +935,6 @@ sap.ui.define([
 
 		onOrderCreate: function () {
 			var that = this;
-			
-			that._oBusyDialog.open();
-			that.getView().setBusy(true);
 			/*try {*/
 				var oDataModel = sap.ui.getCore().getModel("oDataModel"),
 					oLocalModel = sap.ui.getCore().getModel(),
@@ -949,6 +946,14 @@ sap.ui.define([
 				order.MnWkCtr = order.MnWkCtr.Arbpl;
 				order.Breakdown = order.Breakdown ? "X" : "";
 				order.Equicatgry = oEquipment.Equicatgry;
+
+				if (!order.Equipment || !order.OrderType || !order.Priority || !order.OrderAddress.Name || !order.OrderAddress.Area 
+					|| !order.OrderAddress.Record || !order.OrderAddress.Telephone || !order.ShortText) {
+					MessageToast.show("Complete todos os dados obrigatórios antes de continuar por favor.");
+					return;
+				}
+
+				that.getView().setBusy(true);
 
 				/*if (oLocalModel.getProperty("/ReleaseOrder")) {
 					order.Release = "X";
@@ -1045,7 +1050,6 @@ sap.ui.define([
 									//msgSuc = that._oBundle.getText("SUCCESS_CREATE", [match[1]]);
 									oOrderComponents.Orderid = [match[1]];
 								}
-								that._oBusyDialog.close();
 								that.getView().setBusy(false);
 								sap.m.MessageBox.success(msgSuc, {
 									onClose: function () {
@@ -1060,7 +1064,6 @@ sap.ui.define([
 						},
 						error: function (oError) {
 							oDataModel.fireRequestFailed(oError);
-							that._oBusyDialog.close();
 							that.getView().setBusy(false);
 						}
 					});
