@@ -37,6 +37,7 @@ sap.ui.define([
 				/* Por alguna razon en el "onNavBack" ejecuta esto yendo al home. En la doc tira que haga esto */
 				return;
 			}
+			this.getView().bindElement("/Order");
 			var sNotificationId = oEvent.getParameter("arguments").NotificationId,
 				oView = this.getView(),
 				oLocalModel = sap.ui.getCore().getModel(),
