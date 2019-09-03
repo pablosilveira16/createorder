@@ -7,6 +7,9 @@
           <SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>SEARCH}" width="100%" search="onSearch" placeholder="{i18n>SEARCH}">
           </SearchField>
         </contentMiddle>
+        <contentRight>
+          <Button icon="{= ${/WCFilter} ? 'sap-icon://clear-filter' : 'sap-icon://filter'}" press="handleSearchFilter"/>
+        </contentRight>
       </Bar>
     </semantic:subHeader>
 

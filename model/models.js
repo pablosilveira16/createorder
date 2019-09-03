@@ -191,6 +191,16 @@ sap.ui.define([
 					}
 				});
 
+				oDataModel.read("/WorkCenterSet", {
+					success: function(oData, response) {
+						localModel.setProperty("/WorkCenterSet", oData.results, localModel, true);
+					},
+					error: function(oError) {
+						oError.customMessage = sap.ui.getCore().getModel("i18n").getResourceBundle().getText("SOMETHING_HAS_HAPPENED");
+						oDataModel.fireRequestFailed(oError);
+					}
+				});
+
 				var i18n = sap.ui.getCore().getModel("i18n").getResourceBundle();
 				var operators = [{
 					Key: "NONE",

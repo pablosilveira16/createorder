@@ -950,6 +950,23 @@ sap.ui.define([
             var oNavCon = sap.ui.core.Fragment.byId("searcherFragment", "navContainer");
             oNavCon.back();
         },
+        handleSearchFilter: function(){
+            var localModel = sap.ui.getCore().getModel(),
+                filterIsOn = localModel.getProperty("/WCFilter");
+            if(filterIsOn){
+                localModel.setProperty("/WCFilter", false);
+                this.getView().byId("notifList").getBinding("items").filter();
+            } else {
+                if(!this._workCenterFilter){
+                    this._workCenterFilter = sap.ui.xmlfragment("com.blueboot.createorders.view.WorkCenterFilter", this);
+                    this.getView().addDependent(this._workCenterFilter);
+                } else {
+                    this._workCenterFilter.getBinding("items").filter();
+                }
+                this._workCenterFilter.open();
+            }
+
+        },
         cancelSearch: function(oEvent) {
             this.closeSearcher();
         },
