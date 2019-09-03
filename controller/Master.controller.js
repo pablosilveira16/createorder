@@ -967,6 +967,27 @@ sap.ui.define([
             }
 
         },
+        onWorkCenterSearch: function(oEvent){
+            var sValue = oEvent.getParameter("value").toUpperCase(),
+                oBinding = oEvent.getSource().getBinding("items");
+                //oFilter = new sap.ui.model.Filter("Arbpl", sap.ui.model.FilterOperator.Contains, sValue);
+            var oFilter = new Filter({
+                filters: [
+                    new Filter("Arbpl", sap.ui.model.FilterOperator.Contains, sValue),
+                    new Filter("Ktext", sap.ui.model.FilterOperator.Contains, sValue)
+                ],
+                and: false
+            });
+            oBinding.filter([oFilter]);
+        },
+        
+        handleWorkCenterFilterConfirm: function(oEvent){
+            var localModel = sap.ui.getCore().getModel(),
+                objId = oEvent.getParameter("selectedContexts")[0].getProperty().Objid;
+            localModel.setProperty("/WCFilter", true);
+            this.getView().byId("notifList").getBinding("items").filter(new Filter("PmWkctr", FilterOperator.EQ, objId));
+        },
+
         cancelSearch: function(oEvent) {
             this.closeSearcher();
         },

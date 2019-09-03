@@ -15,7 +15,8 @@
 
     <semantic:content>
       <!-- For client side filtering add this to the items attribute:  parameters: {operationMode: 'Client'}}" -->
-      <List 
+      <List
+        id="notifList"
         items="{ path: '/ActualNotifications', sorter: { path: 'Priority' } }" 
         headerText="{i18n>NOTIFICATIONS}" 
         updateFinished="onListUpdateFinished" 
