@@ -958,7 +958,7 @@ sap.ui.define([
                 this.getView().byId("notifList").getBinding("items").filter();
             } else {
                 if(!this._workCenterFilter){
-                    this._workCenterFilter = sap.ui.xmlfragment("com.blueboot.createorders.view.WorkCenterFilter", this);
+                    this._workCenterFilter = sap.ui.xmlfragment("workCenterFilter", "com.blueboot.createorder.view.WorkCenterFilter", this);
                     this.getView().addDependent(this._workCenterFilter);
                 } else {
                     this._workCenterFilter.getBinding("items").filter();
