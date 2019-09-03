@@ -1,0 +1,5 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<SelectDialog title="{i18n>WORK_CENTERS}" search="onWorkCenterSearch" confirm="handleWorkCenterFilterConfirm" items="{/WorkCenterSet}">
+		<StandardListItem title="{Arbpl}" description="{Ktext}" type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>
