@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" controllerName="com.blueboot.createorder.controller.Master" displayBlock="true" busyIndicatorDelay="0">
 
-  <semantic:MasterPage id="page" navButtonPress="handleNavButtonPress" showNavButton="true">
+  <semantic:MasterPage id="page" navButtonPress="handleNavButtonPress" showNavButton="true" backgroundDesign="Solid">
     <semantic:subHeader>
       <Bar id="headerBar">
         <contentMiddle>
