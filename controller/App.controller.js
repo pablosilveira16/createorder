@@ -196,6 +196,7 @@ sap.ui.define([
 						if (sap.m.MessageBox.Action.YES === bResult) {
 							localModel.setProperty("/pendingItems", errorItems);	
 							localModel.setProperty("/pendingItemsCount", errorItems.length);
+							localModel.setProperty("/pendingParentsCount", errorItems.length);
 						}
 					}
 				});
