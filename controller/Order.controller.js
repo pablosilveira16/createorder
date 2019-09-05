@@ -1764,7 +1764,11 @@ sap.ui.define([
 	          }
 	           
 	          function success( status ) {
-	            if( !status.hasPermission ) error();
+	            if( !status.hasPermission ) {
+					error();
+				} else {
+					that.qrFilter();
+				}
 	          }
 	        }
 	      });
