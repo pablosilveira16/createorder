@@ -95,17 +95,19 @@ sap.ui.define([
         },
 
         refreshData: function() {
-
             var that = this;
+            that.getView().setBusy(true);
             if (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
-                $.when(offline.forceCheckIfOnlineAndLoggedIn()).then(function() {
-                    that.getView().setBusy(true);
-                    setTimeout(function() {
-                        that.getView().setBusy(false);
-                        var oEventBus = sap.ui.getCore().getEventBus();
-                        oEventBus.publish("OfflineStore", "Refreshing");
-                    }, 100);
-                });
+                $.when(offline.forceCheckIfOnlineAndLoggedIn()).then(
+                    function() {
+                      setTimeout(function() {
+                          var oEventBus = sap.ui.getCore().getEventBus();
+                          oEventBus.publish("OfflineStore", "Refreshing");
+                          that.getView().setBusy(false);
+                      }, 100);
+                    }, function() {
+                      that.getView().setBusy(false);
+                    });
             } else {
                 console.log("Esta funcionalidad es solo para Kapsel Offline.");
             }

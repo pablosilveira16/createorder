@@ -259,8 +259,8 @@ sap.ui.define([
 					}
 				);
 			} else {
-				sap.m.MessageBox.error(i18nModel.getResourceBundle().getText("DEVICE_OFFLINE"), {
-					title: i18nModel.getResourceBundle().getText("OFFLINE_ALERT")
+				sap.m.MessageBox.show(this.i18n.getText("NO_CONNECTION"), {
+					icon: sap.m.MessageBox.Icon.WARNING
 				});
 				dfd.reject();
 			}
