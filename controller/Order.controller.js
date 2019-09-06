@@ -230,9 +230,6 @@ sap.ui.define([
 				equip = localModel.getProperty("/EquipSelected"),
 				that = this,
 				oOrder;
-			this.getView().byId("planPlantInput").setBusy(true);
-			this.getView().byId("planGroupSelect").setBusy(true);
-			this.getView().byId("workCenterInput").setBusy(true);
 			oDataModel.read("EquipSet('" + equip + "')", {
 				success: function (odata) {
 					var oEquip = odata;
@@ -246,8 +243,6 @@ sap.ui.define([
 					oOrder = localModel.getProperty("/Order");
 					oOrder.Plangroup = oEquip.Plangroup;
 					oOrder.Planplant = plant;
-					that.getView().byId("planPlantInput").setBusy(false);
-					that.getView().byId("planGroupSelect").setBusy(false);
 					localModel.setProperty("/Order", oOrder);
 					localModel.setProperty("/EquipObject", oEquip);
 					
@@ -261,7 +256,6 @@ sap.ui.define([
 								})[0];
 							oOrder.MnWkCtr = oWorkCenter;
 							oOrder.FunctLoc = oEquip.Functlocation;
-							that.getView().byId("workCenterInput").setBusy(false);
 							localModel.setProperty("/Order", oOrder);
 							oOrder.OrderOperationSet = [{
 								Activity: "10",
@@ -277,6 +271,7 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.m.MessageBox.warning(sap.ui.getCore().getModel("i18n").getResourceBundle().getText("INVALID_EQUIPMENT"));
+					
 					localModel.setProperty("/EquipSelected", "");
 					oOrder = localModel.getProperty("/Order");
 					oOrder.Plangroup = "";
@@ -285,9 +280,6 @@ sap.ui.define([
 					oOrder.FunctLoc = "";
 					localModel.setProperty("/Order", oOrder);
 					
-					that.getView().byId("planPlantInput").setBusy(false);
-					that.getView().byId("planGroupSelect").setBusy(false);
-					that.getView().byId("workCenterInput").setBusy(false);
 					localModel.setProperty("/PlanningGroups", []);
 					localModel.setProperty("/PmWorkCenters", []);
 					localModel.setProperty("/OpWorkCenters", []);
