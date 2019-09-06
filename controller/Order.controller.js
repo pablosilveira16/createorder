@@ -228,37 +228,42 @@ sap.ui.define([
 			var localModel = sap.ui.getCore().getModel(),
 				oDataModel = sap.ui.getCore().getModel("oDataModel"),
 				equip = localModel.getProperty("/EquipSelected"),
-				that = this;
+				that = this,
+				oOrder;
+			this.getView().byId("planPlantInput").setBusy(true);
+			this.getView().byId("planGroupSelect").setBusy(true);
+			this.getView().byId("workCenterInput").setBusy(true);
 			oDataModel.read("EquipSet('" + equip + "')", {
 				success: function (odata) {
 					var oEquip = odata;
 					oEquip.Id = oEquip.Equipment;
 					oEquip.description = oEquip.Descript;
 					var dfdWorkCenters = $.Deferred();
-		
+					
 					var plant = localModel.getProperty("/Plants").filter(function (p) {
 							return p.Werks === oEquip.Planplant;
-						})[0],
-						order = localModel.getProperty("/Order");
-					order.Plangroup = oEquip.Plangroup;
-					order.Planplant = plant;
-		
-					localModel.setProperty("/Order", order);
+						})[0];
+					oOrder = localModel.getProperty("/Order");
+					oOrder.Plangroup = oEquip.Plangroup;
+					oOrder.Planplant = plant;
+					that.getView().byId("planPlantInput").setBusy(false);
+					that.getView().byId("planGroupSelect").setBusy(false);
+					localModel.setProperty("/Order", oOrder);
 					localModel.setProperty("/EquipObject", oEquip);
 					
 					that._loadEntities(oEquip.Planplant, undefined, undefined, undefined, dfdWorkCenters);
 					$.when(dfdWorkCenters).then(function () {
 						var aWorkCenters = localModel.getProperty("/PmWorkCenters");
-		
 						if (oEquip) {
-							var oOrder = localModel.getProperty("/Order"),
-								oWorkCenter = aWorkCenters.filter(function (w) {
+							oOrder = localModel.getProperty("/Order");
+							var oWorkCenter = aWorkCenters.filter(function (w) {
 									return w.Objid === oEquip.Workcenter;
 								})[0];
 							oOrder.MnWkCtr = oWorkCenter;
 							oOrder.FunctLoc = oEquip.Functlocation;
+							that.getView().byId("workCenterInput").setBusy(false);
 							localModel.setProperty("/Order", oOrder);
-							order.OrderOperationSet = [{
+							oOrder.OrderOperationSet = [{
 								Activity: "10",
 								ControlKey: "PM01",
 								Plant: oOrder.Planplant,
@@ -266,12 +271,26 @@ sap.ui.define([
 								WorkCntr: oOrder.MnWkCtr.Arbpl,
 								WorkActual: 0
 							}];
-							localModel.setProperty("/ParentOperations", order.OrderOperationSet);
+							localModel.setProperty("/ParentOperations", oOrder.OrderOperationSet);
 						}
 					});
 				},
 				error: function (oError) {
-					sap.m.MessageToast.show("Invalid Equipment");
+					sap.m.MessageBox.warning(sap.ui.getCore().getModel("i18n").getResourceBundle().getText("INVALID_EQUIPMENT"));
+					localModel.setProperty("/EquipSelected", "");
+					oOrder = localModel.getProperty("/Order");
+					oOrder.Plangroup = "";
+					oOrder.Planplant = "";
+					oOrder.MnWkCtr = "";
+					oOrder.FunctLoc = "";
+					localModel.setProperty("/Order", oOrder);
+					
+					that.getView().byId("planPlantInput").setBusy(false);
+					that.getView().byId("planGroupSelect").setBusy(false);
+					that.getView().byId("workCenterInput").setBusy(false);
+					localModel.setProperty("/PlanningGroups", []);
+					localModel.setProperty("/PmWorkCenters", []);
+					localModel.setProperty("/OpWorkCenters", []);
 				}
 			});
 		},
