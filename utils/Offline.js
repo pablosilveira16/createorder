@@ -244,19 +244,25 @@ sap.ui.define([
 			return dfd;
 		},
 		forceCheckIfOnlineAndLoggedIn: function(){
-			var dfd = $.Deferred()
+			var dfd = $.Deferred(),
+				i18nModel = sap.ui.getCore().getModel("i18n");
 			if (window.navigator.onLine) {
 				sap.Logon.performSAMLAuth( 
 					function() {
 						dfd.resolve();
 					},
 					function(oError) {
-						sap.m.MessageBox.show(sap.ui.getCore().getModel("i18n").getResourceBundle().getText("OFFLINE_OPEN_ERROR"), {
+						sap.m.MessageBox.show(i18nModel.getResourceBundle().getText("OFFLINE_OPEN_ERROR"), {
 						 icon: sap.m.MessageBox.Icon.ERROR
 						});
 						dfd.reject();
 					}
 				);
+			} else {
+				sap.m.MessageBox.error(i18nModel.getResourceBundle().getText("DEVICE_OFFLINE"), {
+					title: i18nModel.getResourceBundle().getText("OFFLINE_ALERT")
+				});
+				dfd.reject();
 			}
 			return dfd;
 		},
